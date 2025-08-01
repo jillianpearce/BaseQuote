@@ -198,10 +198,10 @@ post '/generate' do
     pdf.bounding_box([pdf.bounds.left, pdf.cursor], width: pdf.bounds.width) do
       left = [
         { content: "Payable to", font_style: :bold },
-        "37signals",
-        "2045 W Grand Ave Ste B",
-        "PMB 53289",
-        "Chicago, IL 60612"
+        "37signals, LLC",
+        "137 N Oak Park Ave",
+        "Suite 208",
+        "Oak Park, IL 60301"
       ]
       right = [
         { content: "Wire Transfer", font_style: :bold },
@@ -218,7 +218,8 @@ post '/generate' do
         pdf.make_table(right.map { |line| [line] }, cell_style: { borders: [], padding: [2, 4] })
       ]]
       pdf.table(data, width: pdf.bounds.width, cell_style: { borders: [] })
-      pdf.stroke_bounds
+pdf.move_down 10  # adds space inside the box before the border
+pdf.stroke_bounds
     end
     pdf.move_down 30
   end
