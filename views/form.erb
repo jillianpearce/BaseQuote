@@ -1,0 +1,97 @@
+<form action="/generate" method="post">
+  <label>Quote:
+    <input type="text" name="quote" required />
+  </label>
+  <br><br>
+
+  <label>Date:
+    <input type="date" name="date" required />
+  </label>
+  <br><br>
+
+  <label>Next Billing Date:
+    <input type="date" name="next_billing" required />
+  </label>
+  <br><br>
+
+  <label>Account:
+    <input type="text" name="account" required />
+  </label>
+  <br><br>
+
+  <label>Account Name:
+    <input type="text" name="account_name" required />
+  </label>
+  <br><br>
+
+  <label>Account Owner:
+    <input type="text" name="account_owner" required />
+  </label>
+  <br><br>
+
+  <label>Plan:
+    <select name="selected_plan" id="selected_plan" onchange="updatePrice()" required>
+      <option value="Basecamp Pro Unlimited Yearly">Basecamp Pro Unlimited Yearly</option>
+      <option value="Basecamp Pro Unlimited Monthly">Basecamp Pro Unlimited Monthly</option>
+      <option value="Basecamp Plus Monthly">Basecamp Plus Monthly</option>
+      <option value="Lump Sum Deposit">Lump Sum Deposit</option>
+      <option value="Basecamp Pro Unlimited Yearly ACH Invoice">Basecamp Pro Unlimited Yearly ACH Invoice</option>
+    </select>
+  </label>
+  <br><br>
+
+  <div id="user_count_container" style="display: none;">
+    <label>Number of Users:
+      <select id="user_count" name="user_count" onchange="updatePrice()">
+        <% (1..100).each do |n| %>
+          <option value="<%= n %>"><%= n %></option>
+        <% end %>
+      </select>
+    </label>
+    <br><br>
+  </div>
+
+  <label>Price:
+    <input type="text" name="price" id="price" />
+  </label>
+  <br><br>
+
+  <input type="submit" value="Create My PDF" />
+</form>
+
+<script>
+  function updatePrice() {
+    const plan = document.getElementById("selected_plan").value;
+    const userCountContainer = document.getElementById("user_count_container");
+    const userCountSelect = document.getElementById("user_count");
+    let price = "";
+
+    switch (plan) {
+      case "Basecamp Pro Unlimited Yearly":
+        price = "$3,588";
+        userCountContainer.style.display = "none";
+        break;
+      case "Basecamp Pro Unlimited Monthly":
+        price = "$349";
+        userCountContainer.style.display = "none";
+        break;
+      case "Basecamp Plus Monthly":
+        const userCount = userCountSelect ? parseInt(userCountSelect.value) : 1;
+        price = "$" + (15 * userCount);
+        userCountContainer.style.display = "block";
+        break;
+      case "Basecamp Pro Unlimited Yearly ACH Invoice":
+        price = "$3,588";
+        userCountContainer.style.display = "none";
+        break;
+      case "Lump Sum Deposit":
+        price = "";
+        userCountContainer.style.display = "none";
+        break;
+    }
+
+    document.getElementById("price").value = price;
+  }
+
+  document.addEventListener("DOMContentLoaded", updatePrice);
+</script>
