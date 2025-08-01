@@ -1,0 +1,2 @@
+# basequote
+Quote generation tool
