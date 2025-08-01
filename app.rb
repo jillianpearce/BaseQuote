@@ -4,6 +4,14 @@ require 'prawn/table'
 require 'date'
 
 set :bind, '0.0.0.0'
+set :port, ENV['PORT'] || 4567
+set :environment, :production
+set :protection, false
+set :public_folder, 'public'
+set :views, 'views'
+set :allow_origin, '*'
+
+disable :show_exceptions
 
 get '/' do
   erb :form
